@@ -1230,7 +1230,7 @@ public class Pandemic
 	    for (int player = 0; player < this.players.size(); player++)
 	    {
 		for (int card = 0; card < this.players.get(player).getHand().size(); card++)
-		{			
+		{
 		    System.out.println("player index = " + player + ", card inde"
 			    + "x = " + card + ", card = " + this.players.get(player).getHand().get(card));
 		    if(players.get(player).getHand().get(card).isEvent())
@@ -1330,7 +1330,7 @@ public class Pandemic
 	    else if (firstWord.compareTo("commercial") == 0)
 	    {
 		//done  = true;
-	    
+
 		this.commercialTravelBan = this.players.size();
 	    }
 	    else if (firstWord.compareTo("new") == 0)
@@ -1466,64 +1466,20 @@ public class Pandemic
 
     public static void main(String[] args) throws MalformedURLException
     {
-	/*What could go wrong?!
-	 * 
-	 */
-	 SocketIO socket = new SocketIO("http://localhost:8000/");
-        socket.connect(new IOCallback() {
-            @Override
-            public void onMessage(JSONObject json, IOAcknowledge ack) {
-                try {
-                    System.out.println("Server said:" + json.toString(2));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+    	Server server = new Server();
 
-            @Override
-            public void onMessage(String data, IOAcknowledge ack) {
-                System.out.println("Server said: " + data);
-            }
+		System.out.println("Hey look it didn't crash horribly!");
+		Pandemic game = new Pandemic();
+		System.out.println("Selecting game type...");
+		game.selectGameType();
+		System.out.println("Setting up board...");
+		game.setUpBoard();
+		System.out.println("Testing set-up!");
+		game.testSetup();
+		System.out.println("Starting game!");
 
-            @Override
-            public void onError(SocketIOException socketIOException) {
-                System.out.println("an Error occured");
-                socketIOException.printStackTrace();
-            }
-
-            @Override
-            public void onDisconnect() {
-                System.out.println("Connection terminated.");
-            }
-
-            @Override
-            public void onConnect() {
-                System.out.println("Connection established");
-            }
-
-            @Override
-            public void on(String event, IOAcknowledge ack, Object... args) {
-                System.out.println("Server triggered event '" + event + "'");
-            }
-
-        });
-
-        // This line is cached until the connection is establisched.
-        socket.send("Hello Server!");
-		//Real code resumes here
-	
-	System.out.println("Hey look it didn't crash horribly!");
-	Pandemic game = new Pandemic();
-	System.out.println("Selecting game type...");
-	game.selectGameType();
-	System.out.println("Setting up board...");
-	game.setUpBoard();
-	System.out.println("Testing set-up!");
-	game.testSetup();
-	System.out.println("Starting game!");
-
-	game.playClunky();
-	//play() for full game, playClunky() for rough text based version
+		game.playClunky();
+		//play() for full game, playClunky() for rough text based version
     }
 }
 
