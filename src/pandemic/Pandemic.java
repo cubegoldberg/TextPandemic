@@ -1,9 +1,6 @@
 package pandemic;
 
-import io.socket.IOAcknowledge;
-import io.socket.IOCallback;
-import io.socket.SocketIO;
-import io.socket.SocketIOException;
+
 import pandemic.cards.RoleCard;
 import pandemic.cards.PlayerCard;
 import pandemic.cards.InfectionCard;
@@ -13,8 +10,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
-import org.json.JSONException;
-import org.json.JSONObject;
+//import org.json.JSONException;
+//import org.json.JSONObject;
 import pandemic.board.Network;
 import pandemic.board.Node;
 

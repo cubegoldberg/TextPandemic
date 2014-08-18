@@ -1,4 +1,5 @@
-import lib.socketio.client.IO;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Manager$OpenCallback;
 
 public class Server {
     Server() {
