@@ -1,13 +1,20 @@
 package pandemic;
 
+import io.socket.IOAcknowledge;
+import io.socket.IOCallback;
+import io.socket.SocketIO;
+import io.socket.SocketIOException;
 import pandemic.cards.RoleCard;
 import pandemic.cards.PlayerCard;
 import pandemic.cards.InfectionCard;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+import org.json.JSONException;
+import org.json.JSONObject;
 import pandemic.board.Network;
 import pandemic.board.Node;
 
@@ -1457,8 +1464,55 @@ public class Pandemic
 	}
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws MalformedURLException
     {
+	/*What could go wrong?!
+	 * 
+	 */
+	 SocketIO socket = new SocketIO("http://localhost:8000/");
+        socket.connect(new IOCallback() {
+            @Override
+            public void onMessage(JSONObject json, IOAcknowledge ack) {
+                try {
+                    System.out.println("Server said:" + json.toString(2));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onMessage(String data, IOAcknowledge ack) {
+                System.out.println("Server said: " + data);
+            }
+
+            @Override
+            public void onError(SocketIOException socketIOException) {
+                System.out.println("an Error occured");
+                socketIOException.printStackTrace();
+            }
+
+            @Override
+            public void onDisconnect() {
+                System.out.println("Connection terminated.");
+            }
+
+            @Override
+            public void onConnect() {
+                System.out.println("Connection established");
+            }
+
+            @Override
+            public void on(String event, IOAcknowledge ack, Object... args) {
+                System.out.println("Server triggered event '" + event + "'");
+            }
+
+        });
+
+        // This line is cached until the connection is establisched.
+        socket.send("Hello Server!");
+		//Real code resumes here
+	
+	System.out.println("Hey look it didn't crash horribly!");
 	Pandemic game = new Pandemic();
 	System.out.println("Selecting game type...");
 	game.selectGameType();
@@ -1479,3 +1533,6 @@ public class Pandemic
  *	    Get it so weird characters get read correctly on move commands (BogotAAAA etc)
  */
 //if i write anything here it'll still want me to commit, yes?
+
+
+//JSON converter for objects uses org.json (library to import)
