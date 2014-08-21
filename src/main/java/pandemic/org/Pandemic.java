@@ -1,6 +1,8 @@
-package pandemic;
+package pandemic.org;
 
 
+import pandemic.org.Player;
+import pandemic.org.City;
 import pandemic.cards.RoleCard;
 import pandemic.cards.PlayerCard;
 import pandemic.cards.InfectionCard;
@@ -11,6 +13,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+import pandemic.Server;
 //import org.json.JSONException;
 //import org.json.JSONObject;
 import pandemic.board.Network;
@@ -68,6 +71,11 @@ public class Pandemic
     int epidemics;
     int commercialTravelBan = 0;
     private boolean bioTerroristMod;
+    
+    private int stocksUsed[] = new int[]
+    {
+	0, 0, 0, 0, 0
+    };//Black, Blue, Red, Yellow, Purple
 
     private void selectGameType()
     {
@@ -931,12 +939,19 @@ public class Pandemic
 	    for (int i = 0; i < infections; i++)
 	    {
 		InfectionCard card = drawInfectionCard();
-		int outbreaksTriggered = card.getCity().infect(card.getCity().getNaturalColor());
-		this.outbreaks += outbreaksTriggered;
+		InfectionData data = card.getCity().infect(card.getCity().getNaturalColor());
+		this.outbreaks += data.getOutbreaksTriggered();
+		int outbreaksTriggered = data.getOutbreaksTriggered();
+		int cubesPlaced = data.getCubesPlaced();
+		this.stocksUsed[card.getCity().getNaturalColor()]+=cubesPlaced;
 		this.infectionDiscard.add(card);
 		if (outbreaksTriggered > 0)
 		{
 		    System.out.println("There were " + outbreaksTriggered + " more outbreaks, now totalling " + this.outbreaks);
+		}
+		if (stocksUsed[card.getCity().getNaturalColor()]>24 && this.cubesLossCase)
+		{
+		    throw new ArithmeticException("Don't know how to count past 24 cubes!");
 		}
 		else
 		{

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pandemic;
+package pandemic.org;
 
 import java.util.ArrayList;
 import pandemic.board.Node;
@@ -290,15 +290,17 @@ public class City
 	//"City{" + "name=" + name + ", naturalColor=" + naturalColor + ", red=" + red + ", blue=" + blue + ", yellow=" + yellow + ", black=" + black + ", quarantine=" + quarantine + ", governmentActivity=" + governmentActivity + ", researchStation=" + researchStation + ", government=" + government + ", nuked=" + nuked + ", changed=" + changed + ", outbroke=" + outbroke + ", playersHere=" + playersHere + '}';
     }
 
-    public int infect(int color)
+    public InfectionData infect(int color)
     {
 	int outbreaksTriggered = 0;
+	int cubesPlaced = 0;
 	if (!bordersQuarantineExpert())
 	{
 	    if (this.colors[color] < 3)
 	    {
 		this.colors[color]++;
 		this.changed = true;
+		cubesPlaced++;
 	    }
 	    else if (!outbroke)
 	    {
@@ -309,18 +311,19 @@ public class City
 		for (int i = 0; i < toInfect.size(); i++)
 		{
 		    System.out.println(this.name + " outbreaks to " + ((City) (toInfect.get(i).getValue())).getName());
-		    outbreaksTriggered += ((City) (toInfect.get(i).getValue())).infect(color);
+		    outbreaksTriggered += ((InfectionData)(((City) (toInfect.get(i).getValue())).infect(color))).getOutbreaksTriggered();
+		    cubesPlaced += ((InfectionData)(((City) (toInfect.get(i).getValue())).infect(color))).getCubesPlaced();
 		}
 	    }
 	    System.out.println(this);
-	}
-	else
+	}	
+else
 	{
 	    System.out.println("The quarantine expert prevented an infection in " + this.name + "!");
 	}
 
 	//System.out.println(this);
-	return outbreaksTriggered;
+	return new InfectionData(cubesPlaced, outbreaksTriggered);
     }
 
     private boolean bordersQuarantineExpert()

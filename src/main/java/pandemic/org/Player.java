@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pandemic;
+package pandemic.org;
 
+import pandemic.org.City;
 import java.util.ArrayList;
 import java.util.Scanner;
-import pandemic.Pandemic.Action;
+import pandemic.org.Pandemic.Action;
 import pandemic.board.Node;
 import pandemic.cards.PlayerCard;
 import pandemic.cards.RoleCard;

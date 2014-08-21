@@ -4,8 +4,8 @@
  */
 package pandemic.cards;
 
-import pandemic.Pandemic;
-import pandemic.City;
+import pandemic.org.Pandemic;
+import pandemic.org.City;
 
 /**
  *
