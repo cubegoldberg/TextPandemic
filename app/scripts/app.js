@@ -10,9 +10,6 @@ var App = angular.module('app', ['ngSanitize', 'ngResource', 'ui.router']).confi
 		views: {
 			"navView@": {
 				templateUrl: "partials/nav.html"
-			},
-			"footerView@": {
-				templateUrl: "partials/footer.html"
 			}
 		}
 	}).state('main', {
@@ -24,13 +21,13 @@ var App = angular.module('app', ['ngSanitize', 'ngResource', 'ui.router']).confi
 				controller: 'MainCtrl'
 			}
 		}
-	}).state('todo', {
+	}).state('about', {
 		parent: 'index',
-		url: "/todo",
+		url: "/about",
 		views: {
 			"@": {
-				templateUrl: "partials/todo.html",
-				controller: 'TodoCtrl'
+				templateUrl: "partials/about.html",
+				controller: 'AboutCtrl'
 			}
 		}
 	});
